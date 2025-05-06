@@ -74,28 +74,12 @@ public class Main {
     public void loop() {
         createCapabilities();
 
-        float[]  vertices = {
-                -0.5f, -0.5f, 0.0f,
-                 0.5f, -0.5f, 0.0f,
-                 0.5f,  0.5f, 0.0f,
-                -0.5f,  0.5f, 0.0f
-        };
-
-        int[] indices = {
-                0, 1, 2, 3
-        };
-
-        Mesh mesh = MeshLoader.createMesh(vertices, indices);
-
+        Square square = new Square();
 
         while(!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glBindVertexArray(mesh.getVao());
-            glEnableVertexAttribArray(0);
-            glDrawElements(GL_QUADS, mesh.getVertices(), GL_UNSIGNED_INT, 0);
-            glDisableVertexAttribArray(0);
-            glBindVertexArray(0);
+            Square.renderSquare();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
