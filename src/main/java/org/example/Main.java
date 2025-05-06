@@ -4,8 +4,6 @@ import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -13,6 +11,9 @@ import java.nio.IntBuffer;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Main {
@@ -73,13 +74,30 @@ public class Main {
     public void loop() {
         createCapabilities();
 
+        float[]  vertices = {
+                -0.5f, -0.5f, 0.0f,
+                 0.5f, -0.5f, 0.0f,
+                 0.0f,  0.5f, 0.0f
+        };
+
+        int indices[] = {
+                0, 1, 2
+        };
+
+        Mesh mesh = MeshLoader.createMesh(vertices, indices);
+
+
         while(!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glfwSwapBuffers(window);
+            glBindVertexArray(mesh.getVao());
+            glEnableVertexAttribArray(0);
+            glDrawElements(GL_TRIANGLES, mesh.getVertices(), GL_UNSIGNED_INT, 0);
+            glDisableVertexAttribArray(0);
+            glBindVertexArray(0);
 
+            glfwSwapBuffers(window);
             glfwPollEvents();
         }
     }
-
 }
