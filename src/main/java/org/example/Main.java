@@ -11,9 +11,6 @@ import java.nio.IntBuffer;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Main {
@@ -74,12 +71,14 @@ public class Main {
     public void loop() {
         createCapabilities();
 
-        Square square = new Square();
+        // Used to change background color
+        glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
         while(!GLFW.glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Square.renderSquare();
+            //Square.renderSquare();
+            Triangle.renderTriangle();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
