@@ -49,9 +49,10 @@ public class MeshLoader {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
     }
 
-    public static Mesh createMesh(float[] positions, int[] indices) {
+    public static Mesh createMesh(float[] positions, int[] indices, float[] UVs) {
         int vao = genVAO();
         storeData(0,3,positions);
+        storeData(1,2,UVs);
         bindIndices(indices);
         glBindVertexArray(0);
         return new Mesh(vao,indices.length);

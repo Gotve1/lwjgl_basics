@@ -1,3 +1,4 @@
+/*
 package org.example;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -27,3 +28,4 @@ public class Triangle {
     }
 
 }
+*/

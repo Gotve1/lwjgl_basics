@@ -1,12 +1,7 @@
 package org.example;
 
-import org.lwjgl.glfw.Callbacks;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.system.MemoryStack;
-
-import java.nio.IntBuffer;
+import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
@@ -14,74 +9,71 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Main {
-
     private long window;
 
-    public static void main(String[] args) {
-        new Main().run();
+    public void run() {
+        init();
+        loop();
+        cleanup();
     }
 
-    public void run() {
+    private void init() {
+        // Setup error callback
         GLFWErrorCallback.createPrint(System.err).set();
 
+        // Initialize GLFW
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
+        // Configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        window = GLFW.glfwCreateWindow(600, 400, "OpenGL Window", NULL, NULL);
-        if(window == NULL) {
+        // Create the window
+        window = glfwCreateWindow(800, 600, "Game", NULL, NULL);
+        if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {});
+        // Make the OpenGL context current
+        glfwMakeContextCurrent(window);
+        // Enable v-sync
+        glfwSwapInterval(1);
+        // Make the window visible
+        glfwShowWindow(window);
 
-        try(MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer pWidth = stack.mallocInt(1);
-            IntBuffer pHeight = stack.mallocInt(1);
-
-            glfwGetWindowSize(window, pWidth, pHeight);
-
-            GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-
-            glfwSetWindowPos(window,(vidMode.width() - pWidth.get(0)) / 2, (vidMode.height() - pHeight.get(0)) / 2);
-
-            glfwMakeContextCurrent(window);
-            glfwSwapInterval(1);
-            glfwShowWindow(window);
-        }
-
-        init();
-        loop();
-
-        Callbacks.glfwFreeCallbacks(window);
-        glfwDestroyWindow(window);
-
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
-
-    public void init() {
-
-    }
-
-    public void loop() {
+        // This line is critical - it creates the OpenGL context
         createCapabilities();
 
-        // Used to change background color
-        glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+        // Now you can enable textures and initialize other OpenGL features
+        glEnable(GL_TEXTURE_2D);
 
-        while(!GLFW.glfwWindowShouldClose(window)) {
+        Square.init();
+    }
+
+    private void loop() {
+        createCapabilities();
+
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            //Square.renderSquare();
-            Triangle.renderTriangle();
+            Square.renderSquare();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+    }
+
+    private void cleanup() {
+        glfwDestroyWindow(window);
+        glfwTerminate();
+    }
+
+    public static void main(String[] args) {
+        new Main().run();
     }
 }

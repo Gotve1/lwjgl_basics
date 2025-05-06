@@ -6,26 +6,47 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class Square {
+    private static int textureId;
+    private static boolean initialized = false;
+
+    public static void init() {
+        if (!initialized) {
+            textureId = Texture.loadTexture("log_oak.png");
+            initialized = true;
+        }
+    }
 
     public static void renderSquare() {
-        float[]  vertices = {
+        float[] vertices = {
                 -0.5f, -0.5f, 0.0f,
                 0.5f, -0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                -0.5f,  0.5f, 0.0f
+                0.5f, 0.5f, 0.0f,
+                -0.5f, 0.5f, 0.0f
+        };
+
+        float[] uvCoords = {
+                0.0f, 0.0f,
+                1.0f, 0.0f,
+                1.0f, 1.0f,
+                0.0f, 1.0f
         };
 
         int[] indices = {
                 0, 1, 2, 3
         };
 
-        Mesh mesh = MeshLoader.createMesh(vertices, indices);
+        Mesh mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
 
+        glBindTexture(GL_TEXTURE_2D, textureId);
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
-        glDrawElements(GL_QUADS, mesh.getVertices(), GL_UNSIGNED_INT, 0);
-        glDisableVertexAttribArray(0);
-        glBindVertexArray(0);
-    }
+        glEnableVertexAttribArray(1);
 
+        glDrawElements(GL_QUADS, mesh.getVertices(), GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
