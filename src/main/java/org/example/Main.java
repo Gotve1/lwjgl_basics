@@ -42,6 +42,7 @@ public class Main {
 
         glEnable(GL_TEXTURE_2D);
 
+        Square.init();
         Triangle.init();
     }
 
@@ -56,6 +57,7 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             shader.start();
+            Square.renderSquare();
             Triangle.renderTriangle();
             shader.stop();
 
