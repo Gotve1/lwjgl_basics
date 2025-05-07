@@ -13,7 +13,7 @@ public class Square {
 
     public static void init() {
         if (!initialized) {
-            textureId = Texture.loadTexture("src/main/resources/brick_wall.png");
+            textureId = Texture.loadTexture("src/main/resources/textures/brick_wall.png");
             initialized = true;
         }
     }

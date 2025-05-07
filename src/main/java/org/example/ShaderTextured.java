@@ -5,8 +5,8 @@ import java.io.IOException;
 public class ShaderTextured extends Shader {
 
     public ShaderTextured() throws IOException {
-        super("Vertex.glsl",
-                "Fragment.glsl");
+        super("src/main/resources/shaders/Vertex.glsl",
+                "src/main/resources/shaders/Fragment.glsl");
     }
 
     @Override

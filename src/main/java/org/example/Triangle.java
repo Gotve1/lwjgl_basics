@@ -11,7 +11,7 @@ public class Triangle {
 
     public static void init() {
         if (!initialized) {
-            textureId = Texture.loadTexture("src/main/resources/img.png");
+            textureId = Texture.loadTexture("src/main/resources/textures/img.png");
             initialized = true;
         }
     }
