@@ -5,8 +5,10 @@ import org.example.vector.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -20,8 +22,16 @@ public abstract class Shader {
     private FloatBuffer matrix = BufferUtils.createFloatBuffer(16);
 
     public Shader(String Vert, String Frag) throws IOException {
-        vertexId = loadShader(Vert, GL_VERTEX_SHADER);
-        fragmentId = loadShader(Frag, GL_FRAGMENT_SHADER);
+//        URL vertUrl = Shader.class.getResource(Vert);
+        File vertFile = new File(String.valueOf(Vert));
+        String vertFilePath = vertFile.getAbsolutePath();
+
+//        URL fragUrl = Shader.class.getResource(Frag);
+        File fragFile = new File(String.valueOf(Frag));
+        String fragFilePath = fragFile.getAbsolutePath();
+
+        vertexId = loadShader(vertFilePath, GL_VERTEX_SHADER);
+        fragmentId = loadShader(fragFilePath, GL_FRAGMENT_SHADER);
         programId = glCreateProgram();
         glAttachShader(programId, vertexId);
         glAttachShader(programId, fragmentId);

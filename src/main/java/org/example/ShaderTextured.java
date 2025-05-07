@@ -2,10 +2,11 @@ package org.example;
 
 import java.io.IOException;
 
-public class ShaderTextured extends Shader{
+public class ShaderTextured extends Shader {
 
     public ShaderTextured() throws IOException {
-        super("Textured.vs", "Textured.fs");
+        super("Vertex.glsl",
+                "Fragment.glsl");
     }
 
     @Override

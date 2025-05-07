@@ -39,14 +39,11 @@ public class Square {
 
         Mesh mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
 
-        glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId);
-        glDrawElements(GL_QUADS, mesh.getVertices(), GL_UNSIGNED_INT, 0);
+        Texture.bind(textureId);
+        glDrawElements(GL_TRIANGLE_FAN, mesh.getVertices(), GL_UNSIGNED_INT, 0);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);

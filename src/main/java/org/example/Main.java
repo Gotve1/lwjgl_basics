@@ -2,6 +2,8 @@ package org.example;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 
+import java.io.IOException;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
@@ -10,7 +12,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Main {
     private long window;
 
-    public void run() {
+    public void run() throws IOException {
         init();
         loop();
         cleanup();
@@ -40,18 +42,22 @@ public class Main {
 
         glEnable(GL_TEXTURE_2D);
 
-        Square.init();
+        Triangle.init();
     }
 
-    private void loop() {
+    private void loop() throws IOException {
         createCapabilities();
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        ShaderTextured shader = new ShaderTextured();
+        shader.bindAttributes();
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            Square.renderSquare();
+            shader.start();
+            Triangle.renderTriangle();
+            shader.stop();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -63,7 +69,7 @@ public class Main {
         glfwTerminate();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Main().run();
     }
 }

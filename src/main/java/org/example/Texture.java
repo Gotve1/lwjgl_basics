@@ -10,6 +10,8 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 public class Texture {
@@ -17,6 +19,7 @@ public class Texture {
     private static HashMap<String, Integer> idMap = new HashMap<String, Integer>();
 
     public static int loadTexture(String texture) {
+        STBImage.stbi_set_flip_vertically_on_load(true);
         int width;
         int height;
         ByteBuffer buffer;
@@ -42,6 +45,12 @@ public class Texture {
             glBindTexture(GL_TEXTURE_2D, id);
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
             glGenerateMipmap(GL_TEXTURE_2D);
@@ -52,4 +61,8 @@ public class Texture {
         }
     }
 
+    public static void bind(int id) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
 }
