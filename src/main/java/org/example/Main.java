@@ -40,7 +40,7 @@ public class Main {
             shader.start();
 
             new Square(0.1f, 0.1f, 0.1f, 0.1f,  "src/main/resources/textures/brick_wall.png");
-            new Triangle(0.1f, 0.1f, 0.5f, 0.0f, "src/main/resources/textures/img.png");
+            new Triangle(0.1f, 0.1f, 0.5f, "src/main/resources/textures/img.png");
 
             shader.stop();
             window.update();

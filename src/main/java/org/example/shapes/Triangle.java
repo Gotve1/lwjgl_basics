@@ -11,10 +11,8 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class Triangle {
-    private static int textureId;
-    private static boolean initialized = false;
 
-    public Triangle(float width, float height, float x, float y, String texturePath) {
+    public Triangle(float width, float height, float x, String texturePath) {
         int textureId = Texture.loadTexture(texturePath);
         float aspectRatio = (float) Main.getWidth() / Main.getHeight();
 
