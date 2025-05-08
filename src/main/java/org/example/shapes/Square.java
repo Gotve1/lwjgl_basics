@@ -1,8 +1,10 @@
-package org.example;
+package org.example.shapes;
+
+import org.example.render.Mesh;
+import org.example.render.MeshLoader;
+import org.example.render.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;

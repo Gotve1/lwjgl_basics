@@ -1,4 +1,4 @@
-package org.example;
+package org.example.shader;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ public class ShaderTextured extends Shader {
     }
 
     @Override
-    protected void bindAttributes() {
+    public void bindAttributes() {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
     }

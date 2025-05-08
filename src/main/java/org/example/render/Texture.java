@@ -1,4 +1,4 @@
-package org.example;
+package org.example.render;
 
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;

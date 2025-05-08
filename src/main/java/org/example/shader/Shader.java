@@ -1,4 +1,4 @@
-package org.example;
+package org.example.shader;
 
 import org.example.vector.Matrix4f;
 import org.example.vector.Vector3f;
@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.*;

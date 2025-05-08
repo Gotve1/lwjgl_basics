@@ -1,5 +1,10 @@
 package org.example;
 
+import org.example.render.Render;
+import org.example.render.Window;
+import org.example.shader.ShaderTextured;
+import org.example.shapes.Square;
+import org.example.shapes.Triangle;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import java.io.IOException;
@@ -10,40 +15,12 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Main {
-    private long window;
+    public static Window window;
 
     public void run() throws IOException {
-        init();
+        window = new Window(600, 400, "OpenGL Window");
         loop();
-        cleanup();
-    }
-
-    private void init() {
-        GLFWErrorCallback.createPrint(System.err).set();
-
-        if (!glfwInit()) {
-            throw new IllegalStateException("Unable to initialize GLFW");
-        }
-
-        glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-
-        window = glfwCreateWindow(800, 600, "Game", NULL, NULL);
-        if (window == NULL) {
-            throw new RuntimeException("Failed to create the GLFW window");
-        }
-
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
-        glfwShowWindow(window);
-
-        createCapabilities();
-
-        glEnable(GL_TEXTURE_2D);
-
-        Square.init();
-        Triangle.init();
+        window.terminate();
     }
 
     private void loop() throws IOException {
@@ -51,24 +28,16 @@ public class Main {
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         ShaderTextured shader = new ShaderTextured();
+        Render render = new Render();
+
         shader.bindAttributes();
 
-        while (!glfwWindowShouldClose(window)) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        while (!window.shouldClose()) {
 
-            shader.start();
-            Square.renderSquare();
-            Triangle.renderTriangle();
-            shader.stop();
+            render.cleanup();
 
-            glfwSwapBuffers(window);
-            glfwPollEvents();
+            window.update();
         }
-    }
-
-    private void cleanup() {
-        glfwDestroyWindow(window);
-        glfwTerminate();
     }
 
     public static void main(String[] args) throws IOException {
