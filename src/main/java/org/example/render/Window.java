@@ -1,7 +1,5 @@
 package org.example.render;
 
-import org.example.shapes.Square;
-import org.example.shapes.Triangle;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -37,9 +35,6 @@ public class Window {
         createCapabilities();
 
         glEnable(GL_TEXTURE_2D);
-
-        Square.init();
-        Triangle.init();
     }
 
     public void update() {

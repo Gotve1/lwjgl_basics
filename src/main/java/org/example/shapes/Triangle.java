@@ -1,5 +1,6 @@
 package org.example.shapes;
 
+import org.example.Main;
 import org.example.render.Mesh;
 import org.example.render.MeshLoader;
 import org.example.render.Texture;
@@ -13,18 +14,15 @@ public class Triangle {
     private static int textureId;
     private static boolean initialized = false;
 
-    public static void init() {
-        if (!initialized) {
-            textureId = Texture.loadTexture("src/main/resources/textures/img.png");
-            initialized = true;
-        }
-    }
+    public Triangle(float width, float height, float x, float y, String texturePath) {
+        int textureId = Texture.loadTexture(texturePath);
+        float aspectRatio = (float) Main.getWidth() / Main.getHeight();
 
-    public static void renderTriangle() {
+
         float[] vertices = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f
+            -width + x, -height * aspectRatio, 0.0f,
+             width + x, -height * aspectRatio, 0.0f,
+             width + x,  height * aspectRatio, 0.0f
         };
 
         float[] uvCoords = {

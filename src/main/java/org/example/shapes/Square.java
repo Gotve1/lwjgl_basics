@@ -11,23 +11,16 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class Square {
-    private static int textureId;
-    private static boolean initialized = false;
+    public Square(float width, float height, float x, float y, String texturePath) {
+        int textureId = Texture.loadTexture(texturePath);
 
-    public static void init() {
-        if (!initialized) {
-            textureId = Texture.loadTexture("src/main/resources/textures/brick_wall.png");
-            initialized = true;
-        }
-    }
-
-    public static void renderSquare() {
         float aspectRatio = (float) Main.getWidth() / Main.getHeight();
         float[] vertices = {
-                -0.5f, -0.5f * aspectRatio, 0.0f,  // Bottom-left
-                0.5f, -0.5f * aspectRatio, 0.0f,  // Bottom-right
-                0.5f,  0.5f * aspectRatio, 0.0f,  // Top-right
-                -0.5f,  0.5f * aspectRatio, 0.0f   // Top-left
+                // X     Y      Z
+                -width + x, -height * aspectRatio + y, 0.0f,  // Bottom-left
+                 width + x, -height * aspectRatio + y, 0.0f,  // Bottom-right
+                 width + x,  height * aspectRatio + y, 0.0f,  // Top-right
+                -width + x,  height * aspectRatio + y, 0.0f   // Top-left
         };
 
         float[] uvCoords = {
@@ -51,6 +44,5 @@ public class Square {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
-
     }
 }
