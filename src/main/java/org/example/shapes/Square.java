@@ -1,5 +1,6 @@
 package org.example.shapes;
 
+import org.example.Main;
 import org.example.render.Mesh;
 import org.example.render.MeshLoader;
 import org.example.render.Texture;
@@ -21,11 +22,12 @@ public class Square {
     }
 
     public static void renderSquare() {
+        float aspectRatio = (float) Main.getWidth() / Main.getHeight();
         float[] vertices = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.5f, 0.5f, 0.0f,
-                -0.5f, 0.5f, 0.0f
+                -0.5f, -0.5f * aspectRatio, 0.0f,  // Bottom-left
+                0.5f, -0.5f * aspectRatio, 0.0f,  // Bottom-right
+                0.5f,  0.5f * aspectRatio, 0.0f,  // Top-right
+                -0.5f,  0.5f * aspectRatio, 0.0f   // Top-left
         };
 
         float[] uvCoords = {
