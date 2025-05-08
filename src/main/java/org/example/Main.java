@@ -25,6 +25,7 @@ public class Main {
 
     public void run() throws IOException {
         window = new Window(width, height, title);
+        window.alignWindowCenter();
         loop();
         window.terminate();
     }
