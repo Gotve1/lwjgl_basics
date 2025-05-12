@@ -51,7 +51,7 @@ public class Main {
             negativeShader.stop();
 
             normalShader.start();
-            new Triangle(0.1f, 0.1f, 0.5f, "src/main/resources/textures/pattern.png");
+            new Triangle(0.1f, 0.1f, 0.5f, 0.5f, "src/main/resources/textures/pattern.png");
             normalShader.stop();
 
             window.update();

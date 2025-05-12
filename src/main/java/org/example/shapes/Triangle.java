@@ -10,17 +10,17 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class Triangle {
+public class  Triangle {
 
-    public Triangle(float width, float height, float x, String texturePath) {
+    public Triangle(float width, float height, float x, float y, String texturePath) {
         int textureId = Texture.loadTexture(texturePath);
         float aspectRatio = (float) Main.getWidth() / Main.getHeight();
 
 
         float[] vertices = {
-            -width + x, -height * aspectRatio, 0.0f,
-             width + x, -height * aspectRatio, 0.0f,
-             width + x,  height * aspectRatio, 0.0f
+            -width + x, -height * aspectRatio + y, 0.0f,
+             width + x, -height * aspectRatio + y, 0.0f,
+             width + x,  height * aspectRatio + y, 0.0f
         };
 
         float[] uvCoords = {
