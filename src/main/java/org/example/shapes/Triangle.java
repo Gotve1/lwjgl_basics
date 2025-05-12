@@ -10,39 +10,53 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class  Triangle {
+public class Triangle implements Shape {
 
-    public Triangle(float width, float height, float x, float y, String texturePath) {
-        int textureId = Texture.loadTexture(texturePath);
+    private float width, height, x, y;
+    private Mesh mesh;
+
+    public Triangle(float width, float height, float x, float y) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+
+        initMesh();
+    }
+
+    private void initMesh() {
         float aspectRatio = (float) Main.getWidth() / Main.getHeight();
 
-
         float[] vertices = {
-            -width + x, -height * aspectRatio + y, 0.0f,
-             width + x, -height * aspectRatio + y, 0.0f,
-             width + x,  height * aspectRatio + y, 0.0f
+                -width + x, -height * aspectRatio + y, 0.0f,
+                 width + x, -height * aspectRatio + y, 0.0f,
+                 width + x,  height * aspectRatio + y, 0.0f
         };
 
         float[] uvCoords = {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f
+                0.0f, 0.0f,
+                1.0f, 0.0f,
+                1.0f, 1.0f
         };
 
         int[] indices = {
-            0, 1, 2
+                0, 1, 2
         };
 
-        Mesh mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
+        mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
+    }
+
+    @Override
+    public void render(String texturePath) {
+        int textureId = Texture.loadTexture(texturePath);
 
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         Texture.bind(textureId);
-        glDrawElements(GL_TRIANGLES, mesh.getVertices(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLE_FAN, mesh.getVertices(), GL_UNSIGNED_INT, 0);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
     }
-
 }

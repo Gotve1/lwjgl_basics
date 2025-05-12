@@ -10,17 +10,28 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class Square {
-    public Square(float width, float height, float x, float y, String texturePath) {
-        int textureId = Texture.loadTexture(texturePath);
+public class Square implements Shape {
 
+    private float width, height, x, y;
+    private Mesh mesh;
+
+    public Square(float width, float height, float x, float y) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+
+        initMesh();
+    }
+
+    private void initMesh() {
         float aspectRatio = (float) Main.getWidth() / Main.getHeight();
+
         float[] vertices = {
-                // X     Y      Z
-                -width + x, -height * aspectRatio + y, 0.0f,  // Bottom-left
-                 width + x, -height * aspectRatio + y, 0.0f,  // Bottom-right
-                 width + x,  height * aspectRatio + y, 0.0f,  // Top-right
-                -width + x,  height * aspectRatio + y, 0.0f   // Top-left
+                -width + x, -height * aspectRatio + y, 0.0f,
+                 width + x, -height * aspectRatio + y, 0.0f,
+                 width + x,  height * aspectRatio + y, 0.0f,
+                -width + x,  height * aspectRatio + y, 0.0f
         };
 
         float[] uvCoords = {
@@ -34,7 +45,12 @@ public class Square {
                 0, 1, 2, 3
         };
 
-        Mesh mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
+        mesh = MeshLoader.createMesh(vertices, indices, uvCoords);
+    }
+
+    @Override
+    public void render(String texturePath) {
+        int textureId = Texture.loadTexture(texturePath);
 
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
