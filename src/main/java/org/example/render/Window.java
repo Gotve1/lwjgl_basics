@@ -1,6 +1,8 @@
 package org.example.render;
 
+import org.example.Main;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -52,5 +54,25 @@ public class Window {
 
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public void alignWindowCenter() {
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        // Calculate center position
+        int x = (vidmode.width() - getWindowWidth()) / 2;
+        int y = (vidmode.height() - getWindowHeight()) / 2;
+        glfwSetWindowPos(window, x, y);
+    }
+
+    public int getWindowWidth() {
+        return Main.getWidth();
+    }
+
+    public int getWindowHeight() {
+        return Main.getHeight();
+    }
+
+    public long getWindow() {
+        return window;
     }
 }

@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main {
+
     private static Window window;
     private static int width = 600;
     private static int height = 400;
@@ -25,6 +26,7 @@ public class Main {
 
     public void run() throws IOException {
         window = new Window(width, height, title);
+        window.alignWindowCenter();
         loop();
         window.terminate();
     }
@@ -33,16 +35,25 @@ public class Main {
         createCapabilities();
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        ShaderTextured shader = new ShaderTextured();
-        shader.bindAttributes();
+
+        ShaderTextured normalShader = new ShaderTextured("src/main/resources/shaders/Vertex.glsl",
+                                                       "src/main/resources/shaders/Fragment.glsl");
+
+        ShaderTextured negativeShader = new ShaderTextured("src/main/resources/shaders/Vertex.glsl",
+                                                         "src/main/resources/shaders/Negative.glsl");
+
+        normalShader.bindAttributes();
 
         while (!window.shouldClose()) {
-            shader.start();
 
+            negativeShader.start();
             new Square(0.1f, 0.1f, 0.1f, 0.1f,  "src/main/resources/textures/brick_wall.png");
-            new Triangle(0.1f, 0.1f, 0.5f, "src/main/resources/textures/img.png");
+            negativeShader.stop();
 
-            shader.stop();
+            normalShader.start();
+            new Triangle(0.1f, 0.1f, 0.5f, "src/main/resources/textures/pattern.png");
+            normalShader.stop();
+
             window.update();
         }
     }
