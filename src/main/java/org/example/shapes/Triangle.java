@@ -47,16 +47,7 @@ public class Triangle implements Shape {
     }
 
     @Override
-    public void render(String texturePath) {
-        int textureId = Texture.loadTexture(texturePath);
-
-        glBindVertexArray(mesh.getVao());
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        Texture.bind(textureId);
-        glDrawElements(GL_TRIANGLE_FAN, mesh.getVertices(), GL_UNSIGNED_INT, 0);
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glBindVertexArray(0);
+    public Mesh getMesh() {
+        return mesh;
     }
 }

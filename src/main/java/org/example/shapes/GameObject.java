@@ -1,5 +1,6 @@
 package org.example.shapes;
 
+import org.example.render.Renderer;
 import org.example.shader.ShaderTextured;
 
 public class GameObject {
@@ -13,9 +14,7 @@ public class GameObject {
         this.texturePath = texturePath;
     }
 
-    public void render() {
-        shader.start();
-        shape.render(texturePath);
-        shader.stop();
+    public void render(Renderer renderer) {
+        renderer.render(shape, shader, texturePath);
     }
 }

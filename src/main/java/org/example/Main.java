@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.render.Renderer;
 import org.example.render.Window;
 import org.example.shader.ShaderTextured;
 import org.example.shapes.GameObject;
@@ -20,6 +21,7 @@ public class Main {
     private static int height = 400;
     private static String title = "OpenGL Window";
     private List<GameObject> gameObjects;
+    private Renderer renderer;
 
     public static int getWidth() {
         return width;
@@ -30,16 +32,20 @@ public class Main {
     }
 
     public void run() throws IOException {
-        window = new Window(width, height, title);
-        window.alignWindowCenter();
-        initialize();
-        loop();
-        window.terminate();
+        try {
+            window = new Window(width, height, title);
+            window.alignWindowCenter();
+            initialize();
+            loop();
+        } finally {
+            cleanup();
+        }
     }
 
     private void initialize() throws IOException {
         createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        renderer = new Renderer();
 
         ShaderTextured normalShader = new ShaderTextured("src/main/resources/shaders/Vertex.glsl",
                 "src/main/resources/shaders/Fragment.glsl");
@@ -71,12 +77,28 @@ public class Main {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             for (GameObject gameObject : gameObjects) {
-                gameObject.render();
+                gameObject.render(renderer);
             }
 
             window.update();
         }
     }
+
+    private void cleanup() {
+        if (renderer != null) {
+            renderer.cleanup();
+        }
+
+        if (gameObjects != null) {
+            gameObjects.clear();
+        }
+
+        if (window != null) {
+            window.terminate();
+        }
+    }
+
+
 
     public static void main(String[] args) throws IOException {
         new Main().run();
